@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield - Smart Cybersecurity Protection System</title>
+    
+    <!-- Link to CSS stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for graphs and charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>CyberShield</span>
+            </div>
+            
+            <!-- Navigation Links -->
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active" data-tab="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a></li>
+                <li><a href="#breach-checker" class="nav-link" data-tab="breach-checker">
+                    <i class="fas fa-database"></i> Breach Checker
+                </a></li>
+                <li><a href="#phishing-detector" class="nav-link" data-tab="phishing-detector">
+                    <i class="fas fa-envelope-circle-check"></i> Phishing Detector
+                </a></li>
+                <li><a href="#password-analyzer" class="nav-link" data-tab="password-analyzer">
+                    <i class="fas fa-key"></i> Password Analyzer
+                </a></li>
+                <li><a href="#file-checker" class="nav-link" data-tab="file-checker">
+                    <i class="fas fa-file-shield"></i> File Checker
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        
+        <!-- ========== DASHBOARD TAB ========== -->
+        <section id="dashboard" class="tab-content active">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-shield-alt"></i> Security Dashboard</h1>
+                <p>Monitor your cybersecurity status and threat levels</p>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <!-- Total Scans Card -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #0066ff, #00d4ff);">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Scans</p>
+                        <h3 class="stat-number" id="stat-scans">0</h3>
+                    </div>
+                </div>
+                
+                <!-- Threats Blocked Card -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #ff0066, #ff6600);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Threats Blocked</p>
+                        <h3 class="stat-number" id="stat-threats">0</h3>
+                    </div>
+                </div>
+                
+                <!-- Emails Checked Card -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #00d4ff, #00ff88);">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Emails Checked</p>
+                        <h3 class="stat-number" id="stat-emails">0</h3>
+                    </div>
+                </div>
+                
+                <!-- Files Scanned Card -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #00ff88, #0066ff);">
+                        <i class="fas fa-file"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Files Scanned</p>
+                        <h3 class="stat-number" id="stat-files">0</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3><i class="fas fa-pie-chart"></i> Security Distribution</h3>
+                    <canvas id="pieChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h3><i class="fas fa-bar-chart"></i> Weekly Activity</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Alert Card -->
+            <div class="alert-card alert-info">
+                <div class="alert-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <h4>Security Status: All Systems Normal</h4>
+                    <p>Your system is currently secure. Keep your passwords strong and stay alert to phishing attempts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== DATA BREACH CHECKER TAB ========== -->
+        <section id="breach-checker" class="tab-content">
+            <div class="module-header">
+                <h1><i class="fas fa-database"></i> Data Breach Checker</h1>
+                <p>Check if your email has been compromised in known data breaches</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="input-group">
+                    <label for="breach-email">Enter Your Email Address:</label>
+                    <input 
+                        type="email" 
+                        id="breach-email" 
+                        placeholder="your.email@example.com"
+                        class="input-field"
+                    >
+                    <button class="btn btn-primary" onclick="checkBreach()">
+                        <i class="fas fa-search"></i> Check Now
+                    </button>
+                </div>
+                
+                <!-- Result Container -->
+                <div id="breach-result" class="result-container"></div>
+            </div>
+            
+            <!-- Info Section -->
+            <div class="info-box">
+                <h3><i class="fas fa-lightbulb"></i> Did You Know?</h3>
+                <p>Data breaches happen frequently. If your email is found in a breach, change your password immediately and enable two-factor authentication (2FA) on important accounts.</p>
+            </div>
+        </section>
+
+        <!-- ========== PHISHING DETECTOR TAB ========== -->
+        <section id="phishing-detector" class="tab-content">
+            <div class="module-header">
+                <h1><i class="fas fa-envelope-circle-check"></i> Phishing Email Detector</h1>
+                <p>Analyze email content for phishing and social engineering indicators</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="input-group">
+                    <label for="phishing-text">Paste Email Content Here:</label>
+                    <textarea 
+                        id="phishing-text" 
+                        placeholder="Paste the suspicious email text here... This tool analyzes it for phishing patterns."
+                        class="textarea-field"
+                    ></textarea>
+                    <button class="btn btn-primary" onclick="detectPhishing()">
+                        <i class="fas fa-magnifying-glass"></i> Analyze Email
+                    </button>
+                </div>
+                
+                <!-- Result Container -->
+                <div id="phishing-result" class="result-container"></div>
+            </div>
+            
+            <!-- Info Section -->
+            <div class="info-box">
+                <h3><i class="fas fa-lightbulb"></i> Phishing Red Flags:</h3>
+                <ul>
+                    <li>Urgent requests for personal or financial information</li>
+                    <li>Links that don't match the sender's domain</li>
+                    <li>Poor grammar or suspicious sender addresses</li>
+                    <li>Requests to confirm credentials or payment information</li>
+                    <li>Threatening language or unusual tone</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ========== PASSWORD ANALYZER TAB ========== -->
+        <section id="password-analyzer" class="tab-content">
+            <div class="module-header">
+                <h1><i class="fas fa-key"></i> Password Strength Analyzer</h1>
+                <p>Evaluate your password strength and get improvement suggestions</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="input-group">
+                    <label for="password-input">Enter Password to Analyze:</label>
+                    <input 
+                        type="password" 
+                        id="password-input" 
+                        placeholder="Enter your password"
+                        class="input-field"
+                        oninput="analyzePasswordLive()"
+                    >
+                    <button class="btn btn-primary" onclick="analyzePassword()">
+                        <i class="fas fa-bolt"></i> Analyze Strength
+                    </button>
+                </div>
+                
+                <!-- Result Container -->
+                <div id="password-result" class="result-container"></div>
+            </div>
+            
+            <!-- Requirements Info -->
+            <div class="requirements-grid">
+                <div class="requirement-item" id="req-length">
+                    <i class="fas fa-circle"></i> At least 8 characters
+                </div>
+                <div class="requirement-item" id="req-upper">
+                    <i class="fas fa-circle"></i> Uppercase letters (A-Z)
+                </div>
+                <div class="requirement-item" id="req-lower">
+                    <i class="fas fa-circle"></i> Lowercase letters (a-z)
+                </div>
+                <div class="requirement-item" id="req-numbers">
+                    <i class="fas fa-circle"></i> Numbers (0-9)
+                </div>
+                <div class="requirement-item" id="req-special">
+                    <i class="fas fa-circle"></i> Special characters (!@#$...)
+                </div>
+                <div class="requirement-item" id="req-unique">
+                    <i class="fas fa-circle"></i> Unique characters (no patterns)
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== FILE UPLOAD CHECKER TAB ========== -->
+        <section id="file-checker" class="tab-content">
+            <div class="module-header">
+                <h1><i class="fas fa-file-shield"></i> Secure File Upload Checker</h1>
+                <p>Scan uploaded files for potentially dangerous extensions</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="file-upload-area" id="file-upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop a file here or click to select</p>
+                    <input 
+                        type="file" 
+                        id="file-input" 
+                        hidden
+                        onchange="handleFileSelect()"
+                    >
+                </div>
+                
+                <!-- Result Container -->
+                <div id="file-result" class="result-container"></div>
+            </div>
+            
+            <!-- Dangerous Extensions Info -->
+            <div class="danger-box">
+                <h3><i class="fas fa-exclamation-circle"></i> Dangerous File Types:</h3>
+                <p><strong>Never download or execute these extensions:</strong></p>
+                <div class="extension-grid">
+                    <span class="extension-badge">.exe</span>
+                    <span class="extension-badge">.bat</span>
+                    <span class="extension-badge">.apk</span>
+                    <span class="extension-badge">.msi</span>
+                    <span class="extension-badge">.scr</span>
+                    <span class="extension-badge">.vbs</span>
+                    <span class="extension-badge">.ps1</span>
+                    <span class="extension-badge">.jar</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 CyberShield - Smart Cybersecurity Protection System | Educational Purpose</p>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modules.js') }}"></script>
+</body>
+</html>
